@@ -11,6 +11,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'ds_adls_orders'"
 		},
+		"ls_adls_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'ls_adls'"
+		},
 		"ls_adls_customer_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'ls_adls_customer'"
@@ -24,6 +28,10 @@
 			"metadata": "Secure string for 'password' of 'ls_azsqldb_customers'"
 		},
 		"ds_adls_orders_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://retailprojectsdata.dfs.core.windows.net/"
+		},
+		"ls_adls_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://retailprojectsdata.dfs.core.windows.net/"
 		},
@@ -81,6 +89,9 @@
 					"ds_adls_orders_accountKey": {
 						"value": "[parameters('ds_adls_orders_accountKey')]"
 					},
+					"ls_adls_accountKey": {
+						"value": "[parameters('ls_adls_accountKey')]"
+					},
 					"ls_adls_customer_accountKey": {
 						"value": "[parameters('ls_adls_customer_accountKey')]"
 					},
@@ -92,6 +103,9 @@
 					},
 					"ds_adls_orders_properties_typeProperties_url": {
 						"value": "[parameters('ds_adls_orders_properties_typeProperties_url')]"
+					},
+					"ls_adls_properties_typeProperties_url": {
+						"value": "[parameters('ls_adls_properties_typeProperties_url')]"
 					},
 					"ls_adls_customer_properties_typeProperties_url": {
 						"value": "[parameters('ls_adls_customer_properties_typeProperties_url')]"
