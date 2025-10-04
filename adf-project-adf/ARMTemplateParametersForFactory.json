@@ -1,0 +1,42 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "adf-project-adf"
+		},
+		"ds_adls_orders_accountKey": {
+			"value": ""
+		},
+		"ls_adls_customer_accountKey": {
+			"value": ""
+		},
+		"ls_adls_orders_accountKey": {
+			"value": ""
+		},
+		"ls_azsqldb_customers_password": {
+			"value": ""
+		},
+		"ds_adls_orders_properties_typeProperties_url": {
+			"value": "https://retailprojectsdata.dfs.core.windows.net/"
+		},
+		"ls_adls_customer_properties_typeProperties_url": {
+			"value": "https://retailprojectsdata.dfs.core.windows.net/"
+		},
+		"ls_adls_orders_properties_typeProperties_url": {
+			"value": "https://retailprojectsdata.dfs.core.windows.net/"
+		},
+		"ls_azsqldb_customers_properties_typeProperties_server": {
+			"value": "retail-db-server.database.windows.net"
+		},
+		"ls_azsqldb_customers_properties_typeProperties_database": {
+			"value": "retail-db"
+		},
+		"ls_azsqldb_customers_properties_typeProperties_userName": {
+			"value": "pvnadmin"
+		},
+		"ls_http_orders_properties_typeProperties_url": {
+			"value": "https://files.cdn.thinkific.com"
+		}
+	}
+}
