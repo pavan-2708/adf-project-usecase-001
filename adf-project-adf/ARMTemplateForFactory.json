@@ -57,7 +57,7 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/pl_http_adls')]",
+			"name": "[concat(parameters('factoryName'), '/pl_http_adls_orders')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -274,6 +274,311 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pl_adls_azsqldb_customers')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "adls-azsqldb-customers",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "customer_id",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "customer_id",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "customer_fname",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "customer_fname",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "customer_lname",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "customer_lname",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "customer_email",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "customer_email",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "customer_password",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "customer_password",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "customer_street",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "customer_street",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "customer_city",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "customer_city",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "customer_state",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "customer_state",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "customer_zipcode",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "customer_zipcode",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ds_adls_customers",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ds_sql_customers",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_adls_customers')]",
+				"[concat(variables('factoryId'), '/datasets/ds_sql_customers')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_adls_customers')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_adls_customer",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "customers_final.csv",
+						"folderPath": "customers",
+						"fileSystem": "landing"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "customer_id",
+						"type": "String"
+					},
+					{
+						"name": "customer_fname",
+						"type": "String"
+					},
+					{
+						"name": "customer_lname",
+						"type": "String"
+					},
+					{
+						"name": "customer_email",
+						"type": "String"
+					},
+					{
+						"name": "customer_password",
+						"type": "String"
+					},
+					{
+						"name": "customer_street",
+						"type": "String"
+					},
+					{
+						"name": "customer_city",
+						"type": "String"
+					},
+					{
+						"name": "customer_state",
+						"type": "String"
+					},
+					{
+						"name": "customer_zipcode",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_adls_customer')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_sql_customers')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_azsqldb_customers",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "customer_id",
+						"type": "varchar"
+					},
+					{
+						"name": "customer_fname",
+						"type": "varchar"
+					},
+					{
+						"name": "customer_lname",
+						"type": "varchar"
+					},
+					{
+						"name": "customer_email",
+						"type": "varchar"
+					},
+					{
+						"name": "customer_password",
+						"type": "varchar"
+					},
+					{
+						"name": "customer_street",
+						"type": "varchar"
+					},
+					{
+						"name": "customer_city",
+						"type": "varchar"
+					},
+					{
+						"name": "customer_state",
+						"type": "varchar"
+					},
+					{
+						"name": "customer_zipcode",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "RETAIL",
+					"table": "CUSTOMER"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_azsqldb_customers')]"
+			]
 		}
 	]
 }
