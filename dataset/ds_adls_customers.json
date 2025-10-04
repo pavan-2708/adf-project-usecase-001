@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "customers.csv",
+				"fileName": "customers_final.csv",
 				"folderPath": "customers",
 				"fileSystem": "landing"
 			},
@@ -21,30 +21,39 @@
 		},
 		"schema": [
 			{
+				"name": "customer_id",
 				"type": "String"
 			},
 			{
+				"name": "customer_fname",
 				"type": "String"
 			},
 			{
+				"name": "customer_lname",
 				"type": "String"
 			},
 			{
+				"name": "customer_email",
 				"type": "String"
 			},
 			{
+				"name": "customer_password",
 				"type": "String"
 			},
 			{
+				"name": "customer_street",
 				"type": "String"
 			},
 			{
+				"name": "customer_city",
 				"type": "String"
 			},
 			{
+				"name": "customer_state",
 				"type": "String"
 			},
 			{
+				"name": "customer_zipcode",
 				"type": "String"
 			}
 		]
