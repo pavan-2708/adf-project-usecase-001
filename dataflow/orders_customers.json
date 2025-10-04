@@ -25,7 +25,7 @@
 						"referenceName": "ds_adls_staging",
 						"type": "DatasetReference"
 					},
-					"name": "sinkadlsstaing"
+					"name": "sink"
 				}
 			],
 			"transformations": [
@@ -36,7 +36,10 @@
 					"name": "select"
 				},
 				{
-					"name": "filter1"
+					"name": "filter"
+				},
+				{
+					"name": "sort"
 				}
 			],
 			"scriptLines": [
@@ -83,14 +86,15 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select",
-				"select filter(customer_state==\"caguas\") ~> filter1",
-				"filter1 sink(allowSchemaDrift: true,",
+				"select filter(customer_city == \"Caguas\") ~> filter",
+				"filter sort(asc(customer_fname, true)) ~> sort",
+				"sort sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sinkadlsstaing"
+				"     skipDuplicateMapOutputs: true) ~> sink"
 			]
 		}
 	}

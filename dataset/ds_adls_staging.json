@@ -11,8 +11,8 @@
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": "final.csv",
-				"folderPath": "Final",
-				"fileSystem": "Staging"
+				"folderPath": "final_output",
+				"fileSystem": "staging"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
