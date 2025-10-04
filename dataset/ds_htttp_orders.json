@@ -1,0 +1,22 @@
+{
+	"name": "ds_htttp_orders",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_http_orders",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation",
+				"relativeUrl": "/file_uploads/349536/attachments/c28/5fb/25b/orders.csv"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
