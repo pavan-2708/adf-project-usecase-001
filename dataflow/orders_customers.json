@@ -1,0 +1,97 @@
+{
+	"name": "orders_customers",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_adls_order_df",
+						"type": "DatasetReference"
+					},
+					"name": "sourceorders"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_sql_customers",
+						"type": "DatasetReference"
+					},
+					"name": "sourcecustomers"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_adls_staging",
+						"type": "DatasetReference"
+					},
+					"name": "sinkadlsstaing"
+				}
+			],
+			"transformations": [
+				{
+					"name": "join"
+				},
+				{
+					"name": "select"
+				},
+				{
+					"name": "filter1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          order_id as string,",
+				"          order_date as string,",
+				"          order_customer_id as string,",
+				"          order_status as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> sourceorders",
+				"source(output(",
+				"          customer_id as string,",
+				"          customer_fname as string,",
+				"          customer_lname as string,",
+				"          customer_email as string,",
+				"          customer_password as string,",
+				"          customer_street as string,",
+				"          customer_city as string,",
+				"          customer_state as string,",
+				"          customer_zipcode as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> sourcecustomers",
+				"sourceorders, sourcecustomers join(order_customer_id == customer_id,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join",
+				"join select(mapColumn(",
+				"          order_id,",
+				"          order_date,",
+				"          order_status,",
+				"          customer_id,",
+				"          customer_fname,",
+				"          customer_lname,",
+				"          customer_street,",
+				"          customer_city,",
+				"          customer_state,",
+				"          customer_zipcode",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select",
+				"select filter(customer_state==\"caguas\") ~> filter1",
+				"filter1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sinkadlsstaing"
+			]
+		}
+	}
+}
